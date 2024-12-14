@@ -30,7 +30,7 @@ This will generate a bar plot for showing VOT.
 
 #### Vowel plots: 
 This folder has several scripts in it.
-1. *simple_vowel_plot_and_duration.R*: This will generate a simple vowel plot, with data points as IPA symbols, and a bar plot for duration.
+1. *simple_vowel_plot_and_duration.R*: This will generate a simple vowel plot, with data points as IPA symbols, and a bar plot for duration.  
    <img src="https://github.com/abohnert/LING-L541-scripts/blob/main/src/images/vowel1.png" width="300px">
    <img src="https://github.com/abohnert/LING-L541-scripts/blob/main/src/images/vowel2.png" width="300px">
 2. *advanced_vowel_plot.R*: This will also generate a vowel plot, but \~fancier\~. It will plot the individual tokens, the vowel means, and an ellipse representing one standard deviation from the mean.  
@@ -42,7 +42,7 @@ This folder has several scripts in it.
 The sample data sets used in some of these tutorials can be found in the Sample data sets folder.
 1. *Rtutorial1_F24.R*: This is a tutorial introducing you to R/RStudio. It covers the basics of what R does, as well as some plotting within stock R.
 2. *ggplot2_tutorial1.R*: This is a tutorial introducing you to the plotting package ggplot2. It covers histograms, box plots, and scatter plots.
-3. *Grouped bar plot tutorial (see note at bottom)*: This will go through how to generate a grouped box plot in ggplot2.
+3. *Grouped bar plot tutorial (see note at bottom)*: This will go through how to generate a grouped box plot in ggplot2.  
    <img src="https://github.com/abohnert/LING-L541-scripts/blob/main/src/images/barplot1.png" width="400px">
 
 ## Note on R notebooks
