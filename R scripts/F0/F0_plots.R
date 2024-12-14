@@ -6,7 +6,6 @@
 
 library(ggplot2)
 library(dplyr)
-library(zplyr)
 
 ##### Plot F0 contours (one panel) #####
 #
@@ -152,6 +151,9 @@ data$Position <- factor(data$Position, levels=c('pre', 'post'))
 #   display
 # - Position in facet_grid: change Position to the variable that indicates which
 #   section the data points are from
+# - labeller in facet_grid: changes panel labels. Within the vector, change pre
+#   and post to whatever the values in your dataset are, and then change Pre-stop
+#   and Post-stop to whatever you want the labels to be.
 
 ggplot(data, aes(x=NormalizedTime, y=F0, color = Voicing))+
   #geom_path(aes(group=rowLabel),linewidth = 1)+
@@ -161,4 +163,5 @@ ggplot(data, aes(x=NormalizedTime, y=F0, color = Voicing))+
   labs(x = "Timepoint",
        y = "F0 (Hz)",
        title = "")+
-  facet_grid(cols = vars(Position))
+  facet_grid(cols = vars(Position), labeller = as_labeller(c(pre="Pre-stop", post="Post-stop")))+
+  theme(panel.spacing.x = unit(1.5, "lines"))

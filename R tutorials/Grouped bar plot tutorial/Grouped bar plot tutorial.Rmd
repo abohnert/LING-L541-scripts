@@ -1,0 +1,94 @@
+---
+title: "Grouped bar plot tutorial"
+output: html_notebook
+---
+
+This script will show you how to generate a grouped bar plot that can be adapted to whatever variables are relevant for you.
+
+First, you'll need to load in the *ggplot2* package that we'll use for plotting. Click the green play button to the right of the following chunk to run the code.
+
+```{r}
+library(ggplot2)
+```
+
+First, import your data. You can use the *Import Dataset* tool in the *Environment* window on the top right, or you can import your data using code; whatever you prefer.
+
+Now, we will initiate a ggplot and store the plot in a variable *p.*
+
+Inside `ggplot`, we first need to specify our dataset. Replace `data` with the name of your dataset. Within `aes()`, we specify how our variables map to our plot. `x`is the variable you want on the x-axis, `y`is the variable you want on the y-axis, and `fill` here will determine which variable splits the columns. This won't show anything yet--we haven't yet added any layers to our plot.
+
+```{r}
+ggplot(data, aes(x = x, y = y, fill = fill))
+```
+
+Next, we will add the bar plot layer, which is `geom_bar`. Remember, in ggplot, you add layers by using the plus sign.
+
+To make a grouped bar plot, you have to specify `position`inside `geom_bar`*.* This refers to the position of the bars. Try out `"stack"` instead of `"dodge"` to see what happens!
+
+The other two arguments refer to what determines the height of the bars. By default (i.e., unless you specify otherwise), `geom_bar`will plot the `"identity"`statistic. This means that it wants **one** number that determines the height, and will not calculate anything for you. So, if you had already calculated means, you could just use `geom_bar(position="dodge)` or `geom_bar(position="dodge", stat="identity")`.
+
+The `"summary"` stat is what tells it to do some sort of calculation. If you use this, you then need to specify which stat you want it to calculate with `fun`. Here, we want the mean, so we use `fun="mean"`. You can also use `"min"`, `"max"`, etc.
+
+```{r}
+ggplot(data, aes(x = x, y = y, fill = fill))+
+  geom_bar(position = "dodge", stat="summary", fun = "mean")
+```
+
+This already looks good! But we can change a few things about the formatting.
+
+-   `theme_bw`changes the general formatting of the plot according to a theme. You can look up what the other themes look like by googling "ggplot2 themes), but I like this one.
+
+    -   The `base_size` argument inside `theme_bw`specifies the base size of the text. Change the number to change the font size.
+
+-   `labs`adds any labels you might need to your plot. To change this, just replace the text inside the quotes.
+
+    -   `x`is the x-axis label
+
+    -   `y`is the y-axis label
+
+    -   `title`is the plot title
+
+    -   `fill` here is the legend title since we are associating color with a variable
+
+```{r}
+ggplot(data, aes(x = x, y = y, fill = fill))+
+  geom_bar(position = "dodge", stat="summary", fun = "mean")+
+  theme_bw(base_size=12)+
+  labs(x="",
+       y = "",
+       title = "",
+       fill = "")
+```
+
+If you want to change the order of the x-axis, you can do so by setting the limits within `scale_x_discrete`, which modifies aspects of a discrete (categorical) x-axis. For the argument `limits`, input a vector with the order you would like the axis to be in. For example, I could use `limits = c("bilabial", "alveolar", "velar")`.
+
+```{r}
+ggplot(data, aes(x = x, y = y, fill = fill))+
+  geom_bar(position = "dodge", stat="summary", fun = "mean")+
+  theme_bw(base_size=12)+
+  labs(x="",
+       y = "",
+       title = "",
+       fill = "")
+  scale_x_discrete(limits = c(""))
+```
+
+If you want to change the order of the bars within each category, you will have to do that **before making the plot**. `factor()` makes a variable categorical, and you have to specify what values are allowed. It will also impose some sort of order, which is why it changes the order of the bars in a bar plot.
+
+We want to factor the variable that determines the fill of the bars, so here, replace `data` with the name of your dataset, `variable` with the name of that variable, and for the `levels` argument, specify a vector with the order you want. For example, `levels = c("voiced", "plain", "aspirated")`.
+
+You'll have to regenerate the plot if you change this.
+
+```{r}
+data$variable <- factor(data$variable, levels = c(""))
+```
+
+To save your plot, you can use `ggsave()`. This will save **the most recently generated plot**. First, specify the filename in quotation marks with the extension .png. Then, specify the desired `width` and `height` of your plot in inches.
+
+*Note:* This will save the plot in the same folder that this file is in. If you want it somewhere else, you can specify the full filepath including the filename inside the quotes.
+
+```{r}
+ggsave("plot.png", width = 5, height = 5)
+```
+
+If you copy and paste this code in your own script, you can use the *Export* button in the *Plots* pane on the bottom right.

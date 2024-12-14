@@ -1,8 +1,8 @@
 # Amanda Bohnert, F24 L541
 #
-# This script will make a nice VOT plot for you.
+# This script will make a nice VOT plot and VOT tables for you.
 # You will need to get your data into a specific format for this to work. Look
-# at the vot_example_spreadsheet file to see the format. The IPA symbol goes on
+# at the VOT_sample_data file to see the format. The IPA symbol goes on
 # the left (can be anything), then the voicing (use whatever distinction makes
 # sense for your language), then the place (again use whatever works), and then
 # the VOT. Since you won't have too many tokens, I would just measure it manually.
@@ -20,10 +20,10 @@ library(ggplot2)
 yorder = c("b", "p", "pʰ", "d", "t", "tʰ", "g", "k", "kʰ") %>% rev()
 
 
-# Replace every instance of "vot_example_spreadsheet" with the name of your data set.
+# Replace every instance of "VOT_sample_data" with the name of your data set.
 
-attach(vot_example_spreadsheet)
-ggplot(vot_example_spreadsheet, aes(x=VOT, y = IPA, fill = voicing, group = place))+
+attach(VOT_sample_data)
+ggplot(VOT_sample_data, aes(x=VOT, y = IPA, fill = voicing, group = place))+
   geom_bar(stat="summary", fun = "mean")+
   theme_bw(base_size=14)+ # change the size to make it look right for your computer/paper
   scale_y_discrete(limits = yorder)+
@@ -34,20 +34,20 @@ ggplot(vot_example_spreadsheet, aes(x=VOT, y = IPA, fill = voicing, group = plac
 
 
 # This will make nice tables of the same data that you can use for your paper.
-# Use whichever one is relevant for what your data.
+# Use whichever one is relevant for your data.
 
 # Mean for individual consonants
-vot_table_all <- vot_example_spreadsheet %>%
+vot_table_all <- VOT_sample_data %>%
   group_by(IPA) %>%
   summarize("Mean VOT" = round(mean(VOT), 2))
 
-# Mean for individual consonatns grouped by type
-vot_table_all_with_type <- vot_example_spreadsheet %>%
+# Mean for individual consonants grouped by type
+vot_table_all_with_type <- VOT_sample_data %>%
   group_by(voicing, IPA) %>%
   summarize("Mean VOT" = round(mean(VOT), 2))
 
 # Groups all aspirated, all voiced, etc. together
-vot_table_by_type <- vot_example_spreadsheet %>%
+vot_table_by_type <- VOT_sample_data %>%
   group_by(voicing) %>%
   summarize("Mean VOT" = round(mean(VOT), 2))
 

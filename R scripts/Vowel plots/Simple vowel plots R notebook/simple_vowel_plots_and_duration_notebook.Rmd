@@ -1,0 +1,111 @@
+---
+title: "Simple vowel plots"
+author: Amanda Bohnert
+output: html_notebook
+---
+
+# Set-up
+
+This script will generate a basic F1-F2 vowel plot and duration bar plot for you. Note that this is not a tutorial and thus the code will not be explained. If you want to understand how this works, you can look in the R tutorials folder.
+
+First, make a folder that contains only this .rmd file and your data set (as an Excel file). You'll have to reload this notebook from the new location. Then, run the next chunk of code by clicking the green play button in the top right of the chunk.
+
+```{r}
+file_list <- list.files(pattern = "*.xls|*.xlsx")
+dataset <- readxl::read_xlsx(file_list)
+```
+
+Now, we will load in the packages that we'll need. Run this chunk next.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+Within the quotes, enter the name of the column that contains the vowel labels (e.g., an IPA column), the name of the column containing the F1 measurements, and the name of the column containing the F2 measurements. All names should be [*exactly*]{.underline} the same as in your file, caps and spaces included.
+
+Run the chunk.
+
+```{r}
+vowel = ""
+f1 = ""
+f2 = ""
+duration = ""
+```
+
+# Vowel plots
+
+## Scatter plot with dots
+
+Now, we will make our first plot! In this plot, each token will be represented by a dot. You don't need to change anything, just run the chunk.
+
+If you want to change the general font size, you can change the number after `base_size` in the bottom line. If you want to change the dimensions of the plot, you can change the numbers after `fig.height` and `fig.width` at the top of the chunk. These numbers are in inches, so you can fit it perfectly to the document you'll put the plot in.
+
+To save the plot, right click on the generated plot and click *Save image as.* Enter in the name followed by the extension *.png* (it doesn't automatically include it for some reason).
+
+```{r fig.height=5, fig.width=5}
+ggplot(dataset, aes(x = .data[[f2]], y = .data[[f1]], color = .data[[vowel]]))+
+  geom_point()+
+  scale_x_reverse()+
+  scale_y_reverse()+
+  labs(x="F2 (Hz)", y = "F1 (Hz)")+
+  theme_bw(base_size = 12)
+```
+
+## Scatter plot with text labels
+
+We can change the code so that instead of dots, each data point is represented by the IPA symbol of the vowel.
+
+You can change the size of the IPA symbols by changing the number after `size` in the second line.
+
+If you want to change the general font size, you can change the number after `base_size` in the bottom line. If you want to change the dimensions of the plot, you can change the numbers after `fig.height` and `fig.width` at the top of the chunk. These numbers are in inches, so you can fit it perfectly to the document you'll put the plot in.
+
+To save the plot, right click on the generated plot and click *Save image as.* Enter in the name followed by the extension *.png* (it doesn't automatically include it for some reason).
+
+```{r fig.height=5, fig.width=5}
+ggplot(dataset, aes(x = .data[[f2]], y = .data[[f1]], color = .data[[vowel]]))+
+  geom_text(aes(label = .data[[vowel]]), show.legend = F, size = 5)+
+  scale_x_reverse()+
+  scale_y_reverse()+
+  labs(x="F2 (Hz)", y = "F1 (Hz)")+
+  theme_bw(base_size = 12)
+```
+
+# Duration
+
+Now, we will make a bar plot showing the mean duration for each vowel. Just run the chunk to generate!
+
+If you want to change the general font size, you can change the number after `base_size` in `theme_bw`. If you want to change the dimensions of the plot, you can change the numbers after `fig.height` and `fig.width` at the top of the chunk. These numbers are in inches, so you can fit it perfectly to the document you'll put the plot in.
+
+To save the plot, right click on the generated plot and click *Save image as.* Enter in the name followed by the extension *.png* (it doesn't automatically include it for some reason).
+
+```{r fig.height=4, fig.width=6}
+p <- ggplot(dataset, aes(x=.data[[duration]]*1000, y = .data[[vowel]], fill = .data[[vowel]]))+
+  geom_bar(stat="summary", fun="mean")+
+  scale_x_continuous(expand = expansion(mult = c(0, .05)))+
+  theme_bw(base_size = 15)+
+  theme(legend.position = "none",
+        axis.text.y = element_text(size = 15))+
+  labs(x = "Duration (ms)", y = "Vowel")
+p
+```
+
+If you want the vowels on the x-axis to be in a particular order, after running the previous chunk, replace the list in the parentheses in the first line with the order you want your vowels to appear in in the same format (in quotes, separated by commas), and run the chunk.
+
+If you want to change the general font size, you can change the number after `base_size` in `theme_bw`. If you want to change the dimensions of the plot, you can change the numbers after `fig.height` and `fig.width` at the top of the chunk. These numbers are in inches, so you can fit it perfectly to the document you'll put the plot in.
+
+To save the plot, right click on the generated plot and click *Save image as.* Enter in the name followed by the extension *.png* (it doesn't automatically include it for some reason).
+
+```{r fig.height=4, fig.width=6}
+axis_order = c("i", "ɪ", "ɛ", "æ", "ɜ˞", "ʌ", "u", "ʊ", "ɔ", "ɑ")
+
+dataset[[vowel]] <- factor(dataset[[vowel]], levels = rev(axis_order))
+p <- ggplot(dataset, aes(x=.data[[duration]]*1000, y = .data[[vowel]], fill = .data[[vowel]]))+
+  geom_bar(stat="summary", fun="mean")+
+  scale_x_continuous(expand = expansion(mult = c(0, .05)))+
+  theme_bw(base_size = 15)+
+  theme(legend.position = "none",
+        axis.text.y = element_text(size = 15))+
+  labs(x = "Duration (ms)", y = "Vowel")
+p
+```

@@ -1,0 +1,67 @@
+---
+title: "Advanced vowel plots"
+author: Amanda Bohnert
+output: html_notebook
+---
+
+This will generate a standard F1-F2 vowel plot that shows individual tokens, the mean value for each unique vowel, and ellipses around the mean values showing one standard deviation.
+
+First, make a folder that contains only this .rmd file and your data set (as an Excel file). You'll have to reload this notebook from the new location. Then, run the next chunk of code by clicking the green play button in the top right of the chunk.
+
+```{r}
+file_list <- list.files(pattern = "*.xls|*.xlsx")
+dataset <- readxl::read_xlsx(file_list)
+```
+
+Within the quotes, enter the name of the column that contains the vowel labels (e.g., an IPA column), the name of the column containing the F1 measurements, and the name of the column containing the F2 measurements. All names should be [*exactly*]{.underline} the same as in your file, caps and spaces included.
+
+Run the chunk.
+
+```{r}
+vowel = ""
+f1 = ""
+f2 = ""
+```
+
+Next, we will calculate the mean F1 and F2 values for each vowel. You don't need to change anything here; just run the chunk. If you want the numbers to make a table, you can click on *vowel_means* in the environment window on the right to view the result.
+
+```{r}
+vowel_means <- dataset %>%
+  group_by(.data[[vowel]]) %>%
+  summarize(F1 = mean(.data[[f1]]),
+            F2 = mean(.data[[f2]]))
+colnames(vowel_means)[1] <- vowel
+```
+
+Now, we will make our plot! Just run the chunk to generate the plot.
+
+```{r fig.height=5, fig.width=5}
+p <- ggplot(dataset, aes(x=.data[[f2]], y=.data[[f1]], color=.data[[vowel]]))+
+  geom_point(alpha=0.5,show.legend=F)+
+  stat_ellipse(geom = "polygon", level = .67, aes(fill=.data[[vowel]]), alpha=0.2, 
+               show.legend = F, size = NA)+
+  geom_text(data=vowel_means, aes(label=.data[[vowel]]), size=10, show.legend=F)+
+  scale_x_reverse("F2 (Hz)")+
+  scale_y_reverse("F1 (Hz)")+
+  theme_bw(base_size=12)
+p
+```
+
+There are a few things you may want to change. To change:
+
+-   **General font size:** change the number after `font_size`
+-   **Size of the mean text labels:** change the number after `label_size`
+-   **Plot size:** at the top of the chunk, you can change the numbers after `fig.height` and `fig.width` to modify the dimensions of the plot. These numbers are in inches, so you can fit it perfectly to the document you'll put the plot it.
+
+Run this chunk if you want to change any of these things. You can run this chunk over and over, so you can keep changing the numbers until you're satisfied.
+
+Once your plot looks good, right click on the generated plot and click *Save image as.* Enter in the name followed by the extension *.png* (it doesn't automatically include it for some reason).
+
+```{r fig.height=5, fig.width=5}
+font_size = 12
+label_size = 10
+
+p$layers[[3]]$aes_params$size <- label_size
+p <- p + theme_bw(base_size = font_size) + theme(legend.position = "none")
+p
+```
