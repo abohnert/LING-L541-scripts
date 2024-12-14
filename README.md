@@ -1,5 +1,5 @@
 # IUB LING-L541 script archive
-This is an archive of Praat and R scripts I have written and used in LING-L541. 
+This is an archive of Praat and R scripts I have written and used for LING-L541. 
 
 ## Organization
 There are three folders here: Praat scripts, R tutorials, and R scripts.
