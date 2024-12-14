@@ -21,7 +21,7 @@ This will generate three types of F0 contour plots.
       <img src="https://github.com/abohnert/LING-L541-scripts/blob/main/src/images/f0_1.png" width="400px">
    2. The second will generate **one** contour plot, but split at some point. This is useful for looking at F0 before and after a consonant, for example.  
       <img src="https://github.com/abohnert/LING-L541-scripts/blob/main/src/images/f0_2.png" width="400px">
-   3. The third will generate **two** contour plots, split by a point. This is the same as the last plot, but just presented differently.
+   3. The third will generate **two** contour plots, split by a point. This is the same as the last plot, but just presented differently.  
       <img src="https://github.com/abohnert/LING-L541-scripts/blob/main/src/images/f0_3.png" width="400px">
 
 #### VOT
