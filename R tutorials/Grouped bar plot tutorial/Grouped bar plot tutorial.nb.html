@@ -1759,142 +1759,192 @@ use for plotting. Click the green play button to the right of the
 following chunk to run the code.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3Bsb3QyKVxuYGBgIn0= -->
-<pre class="r"><code>library(ggplot2)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>First, import your data. You can use the <em>Import Dataset</em> tool
-in the <em>Environment</em> window on the top right, or you can import
-your data using code; whatever you prefer.</p>
-<p>Now, we will initiate a ggplot and store the plot in a variable
-<em>p.</em></p>
-<p>Inside <code>ggplot</code>, we first need to specify our dataset.
-Replace <code>data</code> with the name of your dataset. Within
-<code>aes()</code>, we specify how our variables map to our plot.
-<code>x</code>is the variable you want on the x-axis, <code>y</code>is
-the variable you want on the y-axis, and <code>fill</code> here will
-determine which variable splits the columns. This won’t show anything
-yet–we haven’t yet added any layers to our plot.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucCA8LSBnZ3Bsb3QoZGF0YSwgYWVzKHg9cGxhY2UsIHk9Vk9ULCBmaWxsID0gdm9pY2luZykpXG5gYGAifQ== -->
-<pre class="r"><code>p &lt;- ggplot(data, aes(x=place, y=VOT, fill = voicing))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Next, we will add the bar plot layer, which is <code>geom_bar</code>.
-Remember, in ggplot, you add layers by using the plus sign.</p>
-<p>To make a grouped bar plot, you have to specify
-<code>position</code>inside <code>geom_bar</code><em>.</em> This refers
-to the position of the bars. Try out <code>&quot;stack&quot;</code> instead of
-<code>&quot;dodge&quot;</code> to see what happens!</p>
-<p>The other two arguments refer to what determines the height of the
-bars. By default (i.e., unless you specify otherwise),
-<code>geom_bar</code>will plot the <code>&quot;identity&quot;</code>statistic.
-This means that it wants <strong>one</strong> number that determines the
-height, and will not calculate anything for you. So, if you had already
-calculated means, you could just use
-<code>geom_bar(position=&quot;dodge)</code> or
-<code>geom_bar(position=&quot;dodge&quot;, stat=&quot;identity&quot;)</code>.</p>
-<p>The <code>&quot;summary&quot;</code> stat is what tells it to do some sort of
-calculation. If you use this, you then need to specify which stat you
-want it to calculate with <code>fun</code>. Here, we want the mean, so
-we use <code>fun=&quot;mean&quot;</code>. You can also use <code>&quot;min&quot;</code>,
-<code>&quot;max&quot;</code>, etc.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrXG4gIGdlb21fYmFyKHBvc2l0aW9uID0gXCJkb2RnZVwiLCBzdGF0PVwic3VtbWFyeVwiLCBmdW4gPSBcIm1lYW5cIilcbmBgYCJ9 -->
-<pre class="r"><code>ggplot(data, aes(x = x, y = y, fill = fill))+
-  geom_bar(position = &quot;dodge&quot;, stat=&quot;summary&quot;, fun = &quot;mean&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>This already looks good! But we can change a few things about the
-formatting.</p>
-<ul>
-<li><p><code>theme_bw</code>changes the general formatting of the plot
-according to a theme. You can look up what the other themes look like by
-googling “ggplot2 themes), but I like this one.</p>
-<ul>
-<li>The <code>base_size</code> argument inside
-<code>theme_bw</code>specifies the base size of the text. Change the
-number to change the font size.</li>
-</ul></li>
-<li><p><code>labs</code>adds any labels you might need to your plot. To
-change this, just replace the text inside the quotes.</p>
-<ul>
-<li><p><code>x</code>is the x-axis label</p></li>
-<li><p><code>y</code>is the y-axis label</p></li>
-<li><p><code>title</code>is the plot title</p></li>
-<li><p><code>fill</code> here is the legend title since we are
-associating color with a variable</p></li>
-</ul></li>
-</ul>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrXG4gIGdlb21fYmFyKHBvc2l0aW9uID0gXCJkb2RnZVwiLCBzdGF0PVwic3VtbWFyeVwiLCBmdW4gPSBcIm1lYW5cIikrXG4gIHRoZW1lX2J3KGJhc2Vfc2l6ZT0xMikrXG4gIGxhYnMoeD1cIlwiLFxuICAgICAgIHkgPSBcIlwiLFxuICAgICAgIHRpdGxlID0gXCJcIixcbiAgICAgICBmaWxsID0gXCJcIilcbmBgYCJ9 -->
-<pre class="r"><code>ggplot(data, aes(x = x, y = y, fill = fill))+
-  geom_bar(position = &quot;dodge&quot;, stat=&quot;summary&quot;, fun = &quot;mean&quot;)+
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGlicmFyeShnZ3Bsb3QyKVxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+library(ggplot2)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+First, import your data. You can use the *Import Dataset* tool in the *Environment* window on the top right, or you can import your data using code; whatever you prefer.
+
+Now, we will initiate a ggplot and store the plot in a variable *p.*
+
+Inside `ggplot`, we first need to specify our dataset. Replace `data` with the name of your dataset. Within `aes()`, we specify how our variables map to our plot. `x`is the variable you want on the x-axis, `y`is the variable you want on the y-axis, and `fill` here will determine which variable splits the columns. This won&#39;t show anything yet--we haven&#39;t yet added any layers to our plot.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucCA8LSBnZ3Bsb3QoZGF0YSwgYWVzKHg9cGxhY2UsIHk9Vk9ULCBmaWxsID0gdm9pY2luZykpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+p &lt;- ggplot(data, aes(x=place, y=VOT, fill = voicing))</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+Next, we will add the bar plot layer, which is `geom_bar`. Remember, in ggplot, you add layers by using the plus sign.
+
+To make a grouped bar plot, you have to specify `position`inside `geom_bar`*.* This refers to the position of the bars. Try out `&quot;stack&quot;` instead of `&quot;dodge&quot;` to see what happens!
+
+The other two arguments refer to what determines the height of the bars. By default (i.e., unless you specify otherwise), `geom_bar`will plot the `&quot;identity&quot;`statistic. This means that it wants **one** number that determines the height, and will not calculate anything for you. So, if you had already calculated means, you could just use `geom_bar(position=&quot;dodge)` or `geom_bar(position=&quot;dodge&quot;, stat=&quot;identity&quot;)`.
+
+The `&quot;summary&quot;` stat is what tells it to do some sort of calculation. If you use this, you then need to specify which stat you want it to calculate with `fun`. Here, we want the mean, so we use `fun=&quot;mean&quot;`. You can also use `&quot;min&quot;`, `&quot;max&quot;`, etc.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrXG4gIGdlb21fYmFyKHBvc2l0aW9uID0gXFxkb2RnZVxcLCBzdGF0PVxcc3VtbWFyeVxcLCBmdW4gPSBcXG1lYW5cXClcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+ggplot(data, aes(x = x, y = y, fill = fill))+
+  geom_bar(position = \dodge\, stat=\summary\, fun = \mean\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+This already looks good! But we can change a few things about the formatting.
+
+-   `theme_bw`changes the general formatting of the plot according to a theme. You can look up what the other themes look like by googling &quot;ggplot2 themes), but I like this one.
+
+    -   The `base_size` argument inside `theme_bw`specifies the base size of the text. Change the number to change the font size.
+
+-   `labs`adds any labels you might need to your plot. To change this, just replace the text inside the quotes.
+
+    -   `x`is the x-axis label
+
+    -   `y`is the y-axis label
+
+    -   `title`is the plot title
+
+    -   `fill` here is the legend title since we are associating color with a variable
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrXG4gIGdlb21fYmFyKHBvc2l0aW9uID0gXFxkb2RnZVxcLCBzdGF0PVxcc3VtbWFyeVxcLCBmdW4gPSBcXG1lYW5cXCkrXG4gIHRoZW1lX2J3KGJhc2Vfc2l6ZT0xMikrXG4gIGxhYnMoeD1cXFxcLFxuICAgICAgIHkgPSBcXFxcLFxuICAgICAgIHRpdGxlID0gXFxcXCxcbiAgICAgICBmaWxsID0gXFxcXClcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+ggplot(data, aes(x = x, y = y, fill = fill))+
+  geom_bar(position = \dodge\, stat=\summary\, fun = \mean\)+
   theme_bw(base_size=12)+
-  labs(x=&quot;&quot;,
-       y = &quot;&quot;,
-       title = &quot;&quot;,
-       fill = &quot;&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>If you want to change the order of the x-axis, you can do so by
-setting the limits within <code>scale_x_discrete</code>, which modifies
-aspects of a discrete (categorical) x-axis. For the argument
-<code>limits</code>, input a vector with the order you would like the
-axis to be in. For example, I could use
-<code>limits = c(&quot;bilabial&quot;, &quot;alveolar&quot;, &quot;velar&quot;)</code>.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrXG4gIGdlb21fYmFyKHBvc2l0aW9uID0gXCJkb2RnZVwiLCBzdGF0PVwic3VtbWFyeVwiLCBmdW4gPSBcIm1lYW5cIikrXG4gIHRoZW1lX2J3KGJhc2Vfc2l6ZT0xMikrXG4gIGxhYnMoeD1cIlwiLFxuICAgICAgIHkgPSBcIlwiLFxuICAgICAgIHRpdGxlID0gXCJcIixcbiAgICAgICBmaWxsID0gXCJcIilcbiAgc2NhbGVfeF9kaXNjcmV0ZShsaW1pdHMgPSBjKFwiXCIpKVxuYGBgIn0= -->
-<pre class="r"><code>ggplot(data, aes(x = x, y = y, fill = fill))+
-  geom_bar(position = &quot;dodge&quot;, stat=&quot;summary&quot;, fun = &quot;mean&quot;)+
+  labs(x=\\,
+       y = \\,
+       title = \\,
+       fill = \\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+If you want to change the order of the x-axis, you can do so by setting the limits within `scale_x_discrete`, which modifies aspects of a discrete (categorical) x-axis. For the argument `limits`, input a vector with the order you would like the axis to be in. For example, I could use `limits = c(&quot;bilabial&quot;, &quot;alveolar&quot;, &quot;velar&quot;)`.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrXG4gIGdlb21fYmFyKHBvc2l0aW9uID0gXFxkb2RnZVxcLCBzdGF0PVxcc3VtbWFyeVxcLCBmdW4gPSBcXG1lYW5cXCkrXG4gIHRoZW1lX2J3KGJhc2Vfc2l6ZT0xMikrXG4gIGxhYnMoeD1cXFxcLFxuICAgICAgIHkgPSBcXFxcLFxuICAgICAgIHRpdGxlID0gXFxcXCxcbiAgICAgICBmaWxsID0gXFxcXClcbiAgc2NhbGVfeF9kaXNjcmV0ZShsaW1pdHMgPSBjKFxcXFwpKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+ggplot(data, aes(x = x, y = y, fill = fill))+
+  geom_bar(position = \dodge\, stat=\summary\, fun = \mean\)+
   theme_bw(base_size=12)+
-  labs(x=&quot;&quot;,
-       y = &quot;&quot;,
-       title = &quot;&quot;,
-       fill = &quot;&quot;)
-  scale_x_discrete(limits = c(&quot;&quot;))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>If you want to change the order of the bars within each category, you
-will have to do that <strong>before making the plot</strong>.
-<code>factor()</code> makes a variable categorical, and you have to
-specify what values are allowed. It will also impose some sort of order,
-which is why it changes the order of the bars in a bar plot.</p>
-<p>We want to factor the variable that determines the fill of the bars,
-so here, replace <code>data</code> with the name of your dataset,
-<code>variable</code> with the name of that variable, and for the
-<code>levels</code> argument, specify a vector with the order you want.
-For example,
-<code>levels = c(&quot;voiced&quot;, &quot;plain&quot;, &quot;aspirated&quot;)</code>.</p>
-<p>You’ll have to regenerate the plot if you change this.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YSR2b2ljaW5nIDwtIGZhY3RvcihkYXRhJHZvaWNpbmcsIGxldmVscyA9IGMoXCJ2b2ljZWRcIiwgXCJwbGFpblwiLCBcImFzcGlyYXRlZFwiKSlcbmBgYCJ9 -->
-<pre class="r"><code>data$voicing &lt;- factor(data$voicing, levels = c(&quot;voiced&quot;, &quot;plain&quot;, &quot;aspirated&quot;))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>To save your plot, you can use <code>ggsave()</code>. This will save
-<strong>the most recently generated plot</strong>. First, specify the
-filename in quotation marks with the extension .png. Then, specify the
-desired <code>width</code> and <code>height</code> of your plot in
-inches.</p>
-<p><em>Note:</em> This will save the plot in the same folder that this
-file is in. If you want it somewhere else, you can specify the full
-filepath including the filename inside the quotes.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dzYXZlKFwicGxvdC5wbmdcIiwgd2lkdGggPSA1LCBoZWlnaHQgPSA1KVxuYGBgIn0= -->
-<pre class="r"><code>ggsave(&quot;plot.png&quot;, width = 5, height = 5)</code></pre>
+  labs(x=\\,
+       y = \\,
+       title = \\,
+       fill = \\)
+  scale_x_discrete(limits = c(\\))</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+If you want to change the order of the bars within each category, you will have to do that **before making the plot**. `factor()` makes a variable categorical, and you have to specify what values are allowed. It will also impose some sort of order, which is why it changes the order of the bars in a bar plot.
+
+We want to factor the variable that determines the fill of the bars, so here, replace `data` with the name of your dataset, `variable` with the name of that variable, and for the `levels` argument, specify a vector with the order you want. For example, `levels = c(&quot;voiced&quot;, &quot;plain&quot;, &quot;aspirated&quot;)`.
+
+You&#39;ll have to regenerate the plot if you change this.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGF0YSR2b2ljaW5nIDwtIGZhY3RvcihkYXRhJHZvaWNpbmcsIGxldmVscyA9IGMoXFx2b2ljZWRcXCwgXFxwbGFpblxcLCBcXGFzcGlyYXRlZFxcKSlcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+data$voicing &lt;- factor(data$voicing, levels = c(\voiced\, \plain\, \aspirated\))</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+To save your plot, you can use `ggsave()`. This will save **the most recently generated plot**. First, specify the filename in quotation marks with the extension .png. Then, specify the desired `width` and `height` of your plot in inches.
+
+*Note:* This will save the plot in the same folder that this file is in. If you want it somewhere else, you can specify the full filepath including the filename inside the quotes.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ2dzYXZlKFxccGxvdC5wbmdcXCwgd2lkdGggPSA1LCBoZWlnaHQgPSA1KVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+ggsave(\plot.png\, width = 5, height = 5)</code></pre>
+<p>```</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1903,7 +1953,7 @@ filepath including the filename inside the quotes.</p>
 right.</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkdyb3VwZWQgYmFyIHBsb3QgdHV0b3JpYWwiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIHNjcmlwdCB3aWxsIHNob3cgeW91IGhvdyB0byBnZW5lcmF0ZSBhIGdyb3VwZWQgYmFyIHBsb3QgdGhhdCBjYW4gYmUgYWRhcHRlZCB0byB3aGF0ZXZlciB2YXJpYWJsZXMgYXJlIHJlbGV2YW50IGZvciB5b3UuDQoNCkZpcnN0LCB5b3UnbGwgbmVlZCB0byBsb2FkIGluIHRoZSAqZ2dwbG90MiogcGFja2FnZSB0aGF0IHdlJ2xsIHVzZSBmb3IgcGxvdHRpbmcuIENsaWNrIHRoZSBncmVlbiBwbGF5IGJ1dHRvbiB0byB0aGUgcmlnaHQgb2YgdGhlIGZvbGxvd2luZyBjaHVuayB0byBydW4gdGhlIGNvZGUuDQoNCmBgYHtyfQ0KbGlicmFyeShnZ3Bsb3QyKQ0KYGBgDQoNCkZpcnN0LCBpbXBvcnQgeW91ciBkYXRhLiBZb3UgY2FuIHVzZSB0aGUgKkltcG9ydCBEYXRhc2V0KiB0b29sIGluIHRoZSAqRW52aXJvbm1lbnQqIHdpbmRvdyBvbiB0aGUgdG9wIHJpZ2h0LCBvciB5b3UgY2FuIGltcG9ydCB5b3VyIGRhdGEgdXNpbmcgY29kZTsgd2hhdGV2ZXIgeW91IHByZWZlci4NCg0KTm93LCB3ZSB3aWxsIGluaXRpYXRlIGEgZ2dwbG90IGFuZCBzdG9yZSB0aGUgcGxvdCBpbiBhIHZhcmlhYmxlICpwLioNCg0KSW5zaWRlIGBnZ3Bsb3RgLCB3ZSBmaXJzdCBuZWVkIHRvIHNwZWNpZnkgb3VyIGRhdGFzZXQuIFJlcGxhY2UgYGRhdGFgIHdpdGggdGhlIG5hbWUgb2YgeW91ciBkYXRhc2V0LiBXaXRoaW4gYGFlcygpYCwgd2Ugc3BlY2lmeSBob3cgb3VyIHZhcmlhYmxlcyBtYXAgdG8gb3VyIHBsb3QuIGB4YGlzIHRoZSB2YXJpYWJsZSB5b3Ugd2FudCBvbiB0aGUgeC1heGlzLCBgeWBpcyB0aGUgdmFyaWFibGUgeW91IHdhbnQgb24gdGhlIHktYXhpcywgYW5kIGBmaWxsYCBoZXJlIHdpbGwgZGV0ZXJtaW5lIHdoaWNoIHZhcmlhYmxlIHNwbGl0cyB0aGUgY29sdW1ucy4gVGhpcyB3b24ndCBzaG93IGFueXRoaW5nIHlldC0td2UgaGF2ZW4ndCB5ZXQgYWRkZWQgYW55IGxheWVycyB0byBvdXIgcGxvdC4NCg0KYGBge3J9DQpnZ3Bsb3QoZGF0YSwgYWVzKHggPSB4LCB5ID0geSwgZmlsbCA9IGZpbGwpKQ0KYGBgDQoNCk5leHQsIHdlIHdpbGwgYWRkIHRoZSBiYXIgcGxvdCBsYXllciwgd2hpY2ggaXMgYGdlb21fYmFyYC4gUmVtZW1iZXIsIGluIGdncGxvdCwgeW91IGFkZCBsYXllcnMgYnkgdXNpbmcgdGhlIHBsdXMgc2lnbi4NCg0KVG8gbWFrZSBhIGdyb3VwZWQgYmFyIHBsb3QsIHlvdSBoYXZlIHRvIHNwZWNpZnkgYHBvc2l0aW9uYGluc2lkZSBgZ2VvbV9iYXJgKi4qIFRoaXMgcmVmZXJzIHRvIHRoZSBwb3NpdGlvbiBvZiB0aGUgYmFycy4gVHJ5IG91dCBgInN0YWNrImAgaW5zdGVhZCBvZiBgImRvZGdlImAgdG8gc2VlIHdoYXQgaGFwcGVucyENCg0KVGhlIG90aGVyIHR3byBhcmd1bWVudHMgcmVmZXIgdG8gd2hhdCBkZXRlcm1pbmVzIHRoZSBoZWlnaHQgb2YgdGhlIGJhcnMuIEJ5IGRlZmF1bHQgKGkuZS4sIHVubGVzcyB5b3Ugc3BlY2lmeSBvdGhlcndpc2UpLCBgZ2VvbV9iYXJgd2lsbCBwbG90IHRoZSBgImlkZW50aXR5ImBzdGF0aXN0aWMuIFRoaXMgbWVhbnMgdGhhdCBpdCB3YW50cyAqKm9uZSoqIG51bWJlciB0aGF0IGRldGVybWluZXMgdGhlIGhlaWdodCwgYW5kIHdpbGwgbm90IGNhbGN1bGF0ZSBhbnl0aGluZyBmb3IgeW91LiBTbywgaWYgeW91IGhhZCBhbHJlYWR5IGNhbGN1bGF0ZWQgbWVhbnMsIHlvdSBjb3VsZCBqdXN0IHVzZSBgZ2VvbV9iYXIocG9zaXRpb249ImRvZGdlKWAgb3IgYGdlb21fYmFyKHBvc2l0aW9uPSJkb2RnZSIsIHN0YXQ9ImlkZW50aXR5IilgLg0KDQpUaGUgYCJzdW1tYXJ5ImAgc3RhdCBpcyB3aGF0IHRlbGxzIGl0IHRvIGRvIHNvbWUgc29ydCBvZiBjYWxjdWxhdGlvbi4gSWYgeW91IHVzZSB0aGlzLCB5b3UgdGhlbiBuZWVkIHRvIHNwZWNpZnkgd2hpY2ggc3RhdCB5b3Ugd2FudCBpdCB0byBjYWxjdWxhdGUgd2l0aCBgZnVuYC4gSGVyZSwgd2Ugd2FudCB0aGUgbWVhbiwgc28gd2UgdXNlIGBmdW49Im1lYW4iYC4gWW91IGNhbiBhbHNvIHVzZSBgIm1pbiJgLCBgIm1heCJgLCBldGMuDQoNCmBgYHtyfQ0KZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrDQogIGdlb21fYmFyKHBvc2l0aW9uID0gImRvZGdlIiwgc3RhdD0ic3VtbWFyeSIsIGZ1biA9ICJtZWFuIikNCmBgYA0KDQpUaGlzIGFscmVhZHkgbG9va3MgZ29vZCEgQnV0IHdlIGNhbiBjaGFuZ2UgYSBmZXcgdGhpbmdzIGFib3V0IHRoZSBmb3JtYXR0aW5nLg0KDQotICAgYHRoZW1lX2J3YGNoYW5nZXMgdGhlIGdlbmVyYWwgZm9ybWF0dGluZyBvZiB0aGUgcGxvdCBhY2NvcmRpbmcgdG8gYSB0aGVtZS4gWW91IGNhbiBsb29rIHVwIHdoYXQgdGhlIG90aGVyIHRoZW1lcyBsb29rIGxpa2UgYnkgZ29vZ2xpbmcgImdncGxvdDIgdGhlbWVzKSwgYnV0IEkgbGlrZSB0aGlzIG9uZS4NCg0KICAgIC0gICBUaGUgYGJhc2Vfc2l6ZWAgYXJndW1lbnQgaW5zaWRlIGB0aGVtZV9id2BzcGVjaWZpZXMgdGhlIGJhc2Ugc2l6ZSBvZiB0aGUgdGV4dC4gQ2hhbmdlIHRoZSBudW1iZXIgdG8gY2hhbmdlIHRoZSBmb250IHNpemUuDQoNCi0gICBgbGFic2BhZGRzIGFueSBsYWJlbHMgeW91IG1pZ2h0IG5lZWQgdG8geW91ciBwbG90LiBUbyBjaGFuZ2UgdGhpcywganVzdCByZXBsYWNlIHRoZSB0ZXh0IGluc2lkZSB0aGUgcXVvdGVzLg0KDQogICAgLSAgIGB4YGlzIHRoZSB4LWF4aXMgbGFiZWwNCg0KICAgIC0gICBgeWBpcyB0aGUgeS1heGlzIGxhYmVsDQoNCiAgICAtICAgYHRpdGxlYGlzIHRoZSBwbG90IHRpdGxlDQoNCiAgICAtICAgYGZpbGxgIGhlcmUgaXMgdGhlIGxlZ2VuZCB0aXRsZSBzaW5jZSB3ZSBhcmUgYXNzb2NpYXRpbmcgY29sb3Igd2l0aCBhIHZhcmlhYmxlDQoNCmBgYHtyfQ0KZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrDQogIGdlb21fYmFyKHBvc2l0aW9uID0gImRvZGdlIiwgc3RhdD0ic3VtbWFyeSIsIGZ1biA9ICJtZWFuIikrDQogIHRoZW1lX2J3KGJhc2Vfc2l6ZT0xMikrDQogIGxhYnMoeD0iIiwNCiAgICAgICB5ID0gIiIsDQogICAgICAgdGl0bGUgPSAiIiwNCiAgICAgICBmaWxsID0gIiIpDQpgYGANCg0KSWYgeW91IHdhbnQgdG8gY2hhbmdlIHRoZSBvcmRlciBvZiB0aGUgeC1heGlzLCB5b3UgY2FuIGRvIHNvIGJ5IHNldHRpbmcgdGhlIGxpbWl0cyB3aXRoaW4gYHNjYWxlX3hfZGlzY3JldGVgLCB3aGljaCBtb2RpZmllcyBhc3BlY3RzIG9mIGEgZGlzY3JldGUgKGNhdGVnb3JpY2FsKSB4LWF4aXMuIEZvciB0aGUgYXJndW1lbnQgYGxpbWl0c2AsIGlucHV0IGEgdmVjdG9yIHdpdGggdGhlIG9yZGVyIHlvdSB3b3VsZCBsaWtlIHRoZSBheGlzIHRvIGJlIGluLiBGb3IgZXhhbXBsZSwgSSBjb3VsZCB1c2UgYGxpbWl0cyA9IGMoImJpbGFiaWFsIiwgImFsdmVvbGFyIiwgInZlbGFyIilgLg0KDQpgYGB7cn0NCmdncGxvdChkYXRhLCBhZXMoeCA9IHgsIHkgPSB5LCBmaWxsID0gZmlsbCkpKw0KICBnZW9tX2Jhcihwb3NpdGlvbiA9ICJkb2RnZSIsIHN0YXQ9InN1bW1hcnkiLCBmdW4gPSAibWVhbiIpKw0KICB0aGVtZV9idyhiYXNlX3NpemU9MTIpKw0KICBsYWJzKHg9IiIsDQogICAgICAgeSA9ICIiLA0KICAgICAgIHRpdGxlID0gIiIsDQogICAgICAgZmlsbCA9ICIiKQ0KICBzY2FsZV94X2Rpc2NyZXRlKGxpbWl0cyA9IGMoIiIpKQ0KYGBgDQoNCklmIHlvdSB3YW50IHRvIGNoYW5nZSB0aGUgb3JkZXIgb2YgdGhlIGJhcnMgd2l0aGluIGVhY2ggY2F0ZWdvcnksIHlvdSB3aWxsIGhhdmUgdG8gZG8gdGhhdCAqKmJlZm9yZSBtYWtpbmcgdGhlIHBsb3QqKi4gYGZhY3RvcigpYCBtYWtlcyBhIHZhcmlhYmxlIGNhdGVnb3JpY2FsLCBhbmQgeW91IGhhdmUgdG8gc3BlY2lmeSB3aGF0IHZhbHVlcyBhcmUgYWxsb3dlZC4gSXQgd2lsbCBhbHNvIGltcG9zZSBzb21lIHNvcnQgb2Ygb3JkZXIsIHdoaWNoIGlzIHdoeSBpdCBjaGFuZ2VzIHRoZSBvcmRlciBvZiB0aGUgYmFycyBpbiBhIGJhciBwbG90Lg0KDQpXZSB3YW50IHRvIGZhY3RvciB0aGUgdmFyaWFibGUgdGhhdCBkZXRlcm1pbmVzIHRoZSBmaWxsIG9mIHRoZSBiYXJzLCBzbyBoZXJlLCByZXBsYWNlIGBkYXRhYCB3aXRoIHRoZSBuYW1lIG9mIHlvdXIgZGF0YXNldCwgYHZhcmlhYmxlYCB3aXRoIHRoZSBuYW1lIG9mIHRoYXQgdmFyaWFibGUsIGFuZCBmb3IgdGhlIGBsZXZlbHNgIGFyZ3VtZW50LCBzcGVjaWZ5IGEgdmVjdG9yIHdpdGggdGhlIG9yZGVyIHlvdSB3YW50LiBGb3IgZXhhbXBsZSwgYGxldmVscyA9IGMoInZvaWNlZCIsICJwbGFpbiIsICJhc3BpcmF0ZWQiKWAuDQoNCllvdSdsbCBoYXZlIHRvIHJlZ2VuZXJhdGUgdGhlIHBsb3QgaWYgeW91IGNoYW5nZSB0aGlzLg0KDQpgYGB7cn0NCmRhdGEkdmFyaWFibGUgPC0gZmFjdG9yKGRhdGEkdmFyaWFibGUsIGxldmVscyA9IGMoIiIpKQ0KYGBgDQoNClRvIHNhdmUgeW91ciBwbG90LCB5b3UgY2FuIHVzZSBgZ2dzYXZlKClgLiBUaGlzIHdpbGwgc2F2ZSAqKnRoZSBtb3N0IHJlY2VudGx5IGdlbmVyYXRlZCBwbG90KiouIEZpcnN0LCBzcGVjaWZ5IHRoZSBmaWxlbmFtZSBpbiBxdW90YXRpb24gbWFya3Mgd2l0aCB0aGUgZXh0ZW5zaW9uIC5wbmcuIFRoZW4sIHNwZWNpZnkgdGhlIGRlc2lyZWQgYHdpZHRoYCBhbmQgYGhlaWdodGAgb2YgeW91ciBwbG90IGluIGluY2hlcy4NCg0KKk5vdGU6KiBUaGlzIHdpbGwgc2F2ZSB0aGUgcGxvdCBpbiB0aGUgc2FtZSBmb2xkZXIgdGhhdCB0aGlzIGZpbGUgaXMgaW4uIElmIHlvdSB3YW50IGl0IHNvbWV3aGVyZSBlbHNlLCB5b3UgY2FuIHNwZWNpZnkgdGhlIGZ1bGwgZmlsZXBhdGggaW5jbHVkaW5nIHRoZSBmaWxlbmFtZSBpbnNpZGUgdGhlIHF1b3Rlcy4NCg0KYGBge3J9DQpnZ3NhdmUoInBsb3QucG5nIiwgd2lkdGggPSA1LCBoZWlnaHQgPSA1KQ0KYGBgDQoNCklmIHlvdSBjb3B5IGFuZCBwYXN0ZSB0aGlzIGNvZGUgaW4geW91ciBvd24gc2NyaXB0LCB5b3UgY2FuIHVzZSB0aGUgKkV4cG9ydCogYnV0dG9uIGluIHRoZSAqUGxvdHMqIHBhbmUgb24gdGhlIGJvdHRvbSByaWdodC4NCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkdyb3VwZWQgYmFyIHBsb3QgdHV0b3JpYWwiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIHNjcmlwdCB3aWxsIHNob3cgeW91IGhvdyB0byBnZW5lcmF0ZSBhIGdyb3VwZWQgYmFyIHBsb3QgdGhhdCBjYW4gYmUgYWRhcHRlZCB0byB3aGF0ZXZlciB2YXJpYWJsZXMgYXJlIHJlbGV2YW50IGZvciB5b3UuDQoNCkZpcnN0LCB5b3UnbGwgbmVlZCB0byBsb2FkIGluIHRoZSAqZ2dwbG90MiogcGFja2FnZSB0aGF0IHdlJ2xsIHVzZSBmb3IgcGxvdHRpbmcuIENsaWNrIHRoZSBncmVlbiBwbGF5IGJ1dHRvbiB0byB0aGUgcmlnaHQgb2YgdGhlIGZvbGxvd2luZyBjaHVuayB0byBydW4gdGhlIGNvZGUuDQoNCmBgYHtyfQ0KbGlicmFyeShnZ3Bsb3QyKQ0KYGBgDQoNCkZpcnN0LCBpbXBvcnQgeW91ciBkYXRhLiBZb3UgY2FuIHVzZSB0aGUgKkltcG9ydCBEYXRhc2V0KiB0b29sIGluIHRoZSAqRW52aXJvbm1lbnQqIHdpbmRvdyBvbiB0aGUgdG9wIHJpZ2h0LCBvciB5b3UgY2FuIGltcG9ydCB5b3VyIGRhdGEgdXNpbmcgY29kZTsgd2hhdGV2ZXIgeW91IHByZWZlci4NCg0KTm93LCB3ZSB3aWxsIGluaXRpYXRlIGEgZ2dwbG90IGFuZCBzdG9yZSB0aGUgcGxvdCBpbiBhIHZhcmlhYmxlICpwLioNCg0KSW5zaWRlIGBnZ3Bsb3RgLCB3ZSBmaXJzdCBuZWVkIHRvIHNwZWNpZnkgb3VyIGRhdGFzZXQuIFJlcGxhY2UgYGRhdGFgIHdpdGggdGhlIG5hbWUgb2YgeW91ciBkYXRhc2V0LiBXaXRoaW4gYGFlcygpYCwgd2Ugc3BlY2lmeSBob3cgb3VyIHZhcmlhYmxlcyBtYXAgdG8gb3VyIHBsb3QuIGB4YGlzIHRoZSB2YXJpYWJsZSB5b3Ugd2FudCBvbiB0aGUgeC1heGlzLCBgeWBpcyB0aGUgdmFyaWFibGUgeW91IHdhbnQgb24gdGhlIHktYXhpcywgYW5kIGBmaWxsYCBoZXJlIHdpbGwgZGV0ZXJtaW5lIHdoaWNoIHZhcmlhYmxlIHNwbGl0cyB0aGUgY29sdW1ucy4gVGhpcyB3b24ndCBzaG93IGFueXRoaW5nIHlldC0td2UgaGF2ZW4ndCB5ZXQgYWRkZWQgYW55IGxheWVycyB0byBvdXIgcGxvdC4NCg0KYGBge3J9DQpnZ3Bsb3QoZGF0YSwgYWVzKHggPSB4LCB5ID0geSwgZmlsbCA9IGZpbGwpKQ0KYGBgDQoNCk5leHQsIHdlIHdpbGwgYWRkIHRoZSBiYXIgcGxvdCBsYXllciwgd2hpY2ggaXMgYGdlb21fYmFyYC4gUmVtZW1iZXIsIGluIGdncGxvdCwgeW91IGFkZCBsYXllcnMgYnkgdXNpbmcgdGhlIHBsdXMgc2lnbi4NCg0KVG8gbWFrZSBhIGdyb3VwZWQgYmFyIHBsb3QsIHlvdSBoYXZlIHRvIHNwZWNpZnkgYHBvc2l0aW9uYGluc2lkZSBgZ2VvbV9iYXJgKi4qIFRoaXMgcmVmZXJzIHRvIHRoZSBwb3NpdGlvbiBvZiB0aGUgYmFycy4gVHJ5IG91dCBgInN0YWNrImAgaW5zdGVhZCBvZiBgImRvZGdlImAgdG8gc2VlIHdoYXQgaGFwcGVucyENCg0KVGhlIG90aGVyIHR3byBhcmd1bWVudHMgcmVmZXIgdG8gd2hhdCBkZXRlcm1pbmVzIHRoZSBoZWlnaHQgb2YgdGhlIGJhcnMuIEJ5IGRlZmF1bHQgKGkuZS4sIHVubGVzcyB5b3Ugc3BlY2lmeSBvdGhlcndpc2UpLCBgZ2VvbV9iYXJgd2lsbCBwbG90IHRoZSBgImlkZW50aXR5ImBzdGF0aXN0aWMuIFRoaXMgbWVhbnMgdGhhdCBpdCB3YW50cyAqKm9uZSoqIG51bWJlciB0aGF0IGRldGVybWluZXMgdGhlIGhlaWdodCwgYW5kIHdpbGwgbm90IGNhbGN1bGF0ZSBhbnl0aGluZyBmb3IgeW91LiBTbywgaWYgeW91IGhhZCBhbHJlYWR5IGNhbGN1bGF0ZWQgbWVhbnMsIHlvdSBjb3VsZCBqdXN0IHVzZSBgZ2VvbV9iYXIocG9zaXRpb249ImRvZGdlKWAgb3IgYGdlb21fYmFyKHBvc2l0aW9uPSJkb2RnZSIsIHN0YXQ9ImlkZW50aXR5IilgLg0KDQpUaGUgYCJzdW1tYXJ5ImAgc3RhdCBpcyB3aGF0IHRlbGxzIGl0IHRvIGRvIHNvbWUgc29ydCBvZiBjYWxjdWxhdGlvbi4gSWYgeW91IHVzZSB0aGlzLCB5b3UgdGhlbiBuZWVkIHRvIHNwZWNpZnkgd2hpY2ggc3RhdCB5b3Ugd2FudCBpdCB0byBjYWxjdWxhdGUgd2l0aCBgZnVuYC4gSGVyZSwgd2Ugd2FudCB0aGUgbWVhbiwgc28gd2UgdXNlIGBmdW49Im1lYW4iYC4gWW91IGNhbiBhbHNvIHVzZSBgIm1pbiJgLCBgIm1heCJgLCBldGMuDQoNCmBgYHtyfQ0KZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrDQogIGdlb21fYmFyKHBvc2l0aW9uID0gImRvZGdlIiwgc3RhdD0ic3VtbWFyeSIsIGZ1biA9ICJtZWFuIikNCmBgYA0KDQpUaGlzIGFscmVhZHkgbG9va3MgZ29vZCEgQnV0IHdlIGNhbiBjaGFuZ2UgYSBmZXcgdGhpbmdzIGFib3V0IHRoZSBmb3JtYXR0aW5nLg0KDQotICAgYHRoZW1lX2J3YGNoYW5nZXMgdGhlIGdlbmVyYWwgZm9ybWF0dGluZyBvZiB0aGUgcGxvdCBhY2NvcmRpbmcgdG8gYSB0aGVtZS4gWW91IGNhbiBsb29rIHVwIHdoYXQgdGhlIG90aGVyIHRoZW1lcyBsb29rIGxpa2UgYnkgZ29vZ2xpbmcgImdncGxvdDIgdGhlbWVzKSwgYnV0IEkgbGlrZSB0aGlzIG9uZS4NCg0KICAgIC0gICBUaGUgYGJhc2Vfc2l6ZWAgYXJndW1lbnQgaW5zaWRlIGB0aGVtZV9id2BzcGVjaWZpZXMgdGhlIGJhc2Ugc2l6ZSBvZiB0aGUgdGV4dC4gQ2hhbmdlIHRoZSBudW1iZXIgdG8gY2hhbmdlIHRoZSBmb250IHNpemUuDQoNCi0gICBgbGFic2BhZGRzIGFueSBsYWJlbHMgeW91IG1pZ2h0IG5lZWQgdG8geW91ciBwbG90LiBUbyBjaGFuZ2UgdGhpcywganVzdCByZXBsYWNlIHRoZSB0ZXh0IGluc2lkZSB0aGUgcXVvdGVzLg0KDQogICAgLSAgIGB4YGlzIHRoZSB4LWF4aXMgbGFiZWwNCg0KICAgIC0gICBgeWBpcyB0aGUgeS1heGlzIGxhYmVsDQoNCiAgICAtICAgYHRpdGxlYGlzIHRoZSBwbG90IHRpdGxlDQoNCiAgICAtICAgYGZpbGxgIGhlcmUgaXMgdGhlIGxlZ2VuZCB0aXRsZSBzaW5jZSB3ZSBhcmUgYXNzb2NpYXRpbmcgY29sb3Igd2l0aCBhIHZhcmlhYmxlDQoNCmBgYHtyfQ0KZ2dwbG90KGRhdGEsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSBmaWxsKSkrDQogIGdlb21fYmFyKHBvc2l0aW9uID0gImRvZGdlIiwgc3RhdD0ic3VtbWFyeSIsIGZ1biA9ICJtZWFuIikrDQogIHRoZW1lX2J3KGJhc2Vfc2l6ZT0xMikrDQogIGxhYnMoeD0iIiwNCiAgICAgICB5ID0gIiIsDQogICAgICAgdGl0bGUgPSAiIiwNCiAgICAgICBmaWxsID0gIiIpDQpgYGANCg0KSWYgeW91IHdhbnQgdG8gY2hhbmdlIHRoZSBvcmRlciBvZiB0aGUgeC1heGlzLCB5b3UgY2FuIGRvIHNvIGJ5IHNldHRpbmcgdGhlIGxpbWl0cyB3aXRoaW4gYHNjYWxlX3hfZGlzY3JldGVgLCB3aGljaCBtb2RpZmllcyBhc3BlY3RzIG9mIGEgZGlzY3JldGUgKGNhdGVnb3JpY2FsKSB4LWF4aXMuIEZvciB0aGUgYXJndW1lbnQgYGxpbWl0c2AsIGlucHV0IGEgdmVjdG9yIHdpdGggdGhlIG9yZGVyIHlvdSB3b3VsZCBsaWtlIHRoZSBheGlzIHRvIGJlIGluLiBGb3IgZXhhbXBsZSwgSSBjb3VsZCB1c2UgYGxpbWl0cyA9IGMoImJpbGFiaWFsIiwgImFsdmVvbGFyIiwgInZlbGFyIilgLg0KDQpgYGB7cn0NCmdncGxvdChkYXRhLCBhZXMoeCA9IHgsIHkgPSB5LCBmaWxsID0gZmlsbCkpKw0KICBnZW9tX2Jhcihwb3NpdGlvbiA9ICJkb2RnZSIsIHN0YXQ9InN1bW1hcnkiLCBmdW4gPSAibWVhbiIpKw0KICB0aGVtZV9idyhiYXNlX3NpemU9MTIpKw0KICBsYWJzKHg9IiIsDQogICAgICAgeSA9ICIiLA0KICAgICAgIHRpdGxlID0gIiIsDQogICAgICAgZmlsbCA9ICIiKSsNCiAgc2NhbGVfeF9kaXNjcmV0ZShsaW1pdHMgPSBjKCIiKSkNCmBgYA0KDQpJZiB5b3Ugd2FudCB0byBjaGFuZ2UgdGhlIG9yZGVyIG9mIHRoZSBiYXJzIHdpdGhpbiBlYWNoIGNhdGVnb3J5LCB5b3Ugd2lsbCBoYXZlIHRvIGRvIHRoYXQgKipiZWZvcmUgbWFraW5nIHRoZSBwbG90KiouIGBmYWN0b3IoKWAgbWFrZXMgYSB2YXJpYWJsZSBjYXRlZ29yaWNhbCwgYW5kIHlvdSBoYXZlIHRvIHNwZWNpZnkgd2hhdCB2YWx1ZXMgYXJlIGFsbG93ZWQuIEl0IHdpbGwgYWxzbyBpbXBvc2Ugc29tZSBzb3J0IG9mIG9yZGVyLCB3aGljaCBpcyB3aHkgaXQgY2hhbmdlcyB0aGUgb3JkZXIgb2YgdGhlIGJhcnMgaW4gYSBiYXIgcGxvdC4NCg0KV2Ugd2FudCB0byBmYWN0b3IgdGhlIHZhcmlhYmxlIHRoYXQgZGV0ZXJtaW5lcyB0aGUgZmlsbCBvZiB0aGUgYmFycywgc28gaGVyZSwgcmVwbGFjZSBgZGF0YWAgd2l0aCB0aGUgbmFtZSBvZiB5b3VyIGRhdGFzZXQsIGB2YXJpYWJsZWAgd2l0aCB0aGUgbmFtZSBvZiB0aGF0IHZhcmlhYmxlLCBhbmQgZm9yIHRoZSBgbGV2ZWxzYCBhcmd1bWVudCwgc3BlY2lmeSBhIHZlY3RvciB3aXRoIHRoZSBvcmRlciB5b3Ugd2FudC4gRm9yIGV4YW1wbGUsIGBsZXZlbHMgPSBjKCJ2b2ljZWQiLCAicGxhaW4iLCAiYXNwaXJhdGVkIilgLg0KDQpZb3UnbGwgaGF2ZSB0byByZWdlbmVyYXRlIHRoZSBwbG90IGlmIHlvdSBjaGFuZ2UgdGhpcy4NCg0KYGBge3J9DQpkYXRhJHZhcmlhYmxlIDwtIGZhY3RvcihkYXRhJHZhcmlhYmxlLCBsZXZlbHMgPSBjKCIiKSkNCmBgYA0KDQpUbyBzYXZlIHlvdXIgcGxvdCwgeW91IGNhbiB1c2UgYGdnc2F2ZSgpYC4gVGhpcyB3aWxsIHNhdmUgKip0aGUgbW9zdCByZWNlbnRseSBnZW5lcmF0ZWQgcGxvdCoqLiBGaXJzdCwgc3BlY2lmeSB0aGUgZmlsZW5hbWUgaW4gcXVvdGF0aW9uIG1hcmtzIHdpdGggdGhlIGV4dGVuc2lvbiAucG5nLiBUaGVuLCBzcGVjaWZ5IHRoZSBkZXNpcmVkIGB3aWR0aGAgYW5kIGBoZWlnaHRgIG9mIHlvdXIgcGxvdCBpbiBpbmNoZXMuDQoNCipOb3RlOiogVGhpcyB3aWxsIHNhdmUgdGhlIHBsb3QgaW4gdGhlIHNhbWUgZm9sZGVyIHRoYXQgdGhpcyBmaWxlIGlzIGluLiBJZiB5b3Ugd2FudCBpdCBzb21ld2hlcmUgZWxzZSwgeW91IGNhbiBzcGVjaWZ5IHRoZSBmdWxsIGZpbGVwYXRoIGluY2x1ZGluZyB0aGUgZmlsZW5hbWUgaW5zaWRlIHRoZSBxdW90ZXMuDQoNCmBgYHtyfQ0KZ2dzYXZlKCJwbG90LnBuZyIsIHdpZHRoID0gNSwgaGVpZ2h0ID0gNSkNCmBgYA0KDQpJZiB5b3UgY29weSBhbmQgcGFzdGUgdGhpcyBjb2RlIGluIHlvdXIgb3duIHNjcmlwdCwgeW91IGNhbiB1c2UgdGhlICpFeHBvcnQqIGJ1dHRvbiBpbiB0aGUgKlBsb3RzKiBwYW5lIG9uIHRoZSBib3R0b20gcmlnaHQuDQo=</div>
 
 
 
