@@ -10,7 +10,8 @@ R tutorials will walk you through the script, explaining the code along the way.
 ### Praat scripts
 Remember to look at the instructions at the top when you open the script in Praat.
 1. *duration-only.praat*: This will get the duration of all labeled intervals in a TextGrid.
-2. *midpoint_duration_F0F1F2F3.praat*: This will get the *midpoint* F0, F1, F2, and F3 of all labeled intervals in a TextGrid. It will also get the duration.
+2. *f0_intensity_time_normalized.praat*: This will get F0 and intensity measurements at a specified number of equal timepoints throughout all labeled intervals in a TextGrid.
+3. *midpoint_duration_F0F1F2F3.praat*: This will get the *midpoint* F0, F1, F2, and F3 of all labeled intervals in a TextGrid. It will also get the duration.
 
 ### R scripts
 Each of these is in a folder which contains the script and the dataset I used to write the script. You can use the dataset to figure out what data you need to generate the plot and how it needs to be organized.
