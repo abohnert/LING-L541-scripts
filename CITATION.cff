@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use these scripts, please cite as below."
+authors:
+- family-names: "Bohnert"
+  given-names: "Amanda"
+title: "IUB LING-L541 Script Archive"
+date-released: 2024-12-14
+url: "https://github.com/abohnert/LING-L541-scripts"
