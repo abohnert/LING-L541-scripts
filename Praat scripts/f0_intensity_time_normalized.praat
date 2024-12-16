@@ -3,10 +3,12 @@
 # Any undefined F0 or intensity will be indicated "NA".
 #
 # Created by Amanda Bohnert, Dec 2024. 
+# Update 12/16: Fixed issue causing F0/intensity to be imported to other programs as a string
 
+Text writing preferences: "UTF-8"
 form Get time-normalized F0 and intensity measurements across the duration of labeled segments in file
 	comment Full path of the resulting text file:
-	text resultfile measurements.csv
+	text resultfile measurements.txt
 	comment Which tier do you want to analyze?
 	integer tier 1
 	comment Number of timepoints
@@ -18,7 +20,7 @@ if fileReadable (resultfile$)
 	filedelete 'resultfile$'
 endif
 
-titleline$ = "Segment label,Time,Timepoint,F0,Intensity'newline$'"
+titleline$ = "Label,Time,Timepoint,F0,Intensity'newline$'"
 fileappend "'resultfile$'" 'titleline$'
 
 soundname$ = selected$: "Sound"
@@ -44,11 +46,11 @@ for interval to numberOfIntervals
 			time = start + (inttime * (n-1))
 			f0 = Get value at time... time Hertz Linear
 			if f0 = undefined
-				f0$ = "NA"
+				f0$ = ""
 				select Intensity 'soundname$'
 				intensity = Get value at time... time cubic
 				if intensity = undefined
-					intensity$ = "NA"
+					intensity$ = ""
 					resultline$ = "'label$','time','n','f0$','intensity$''newline$'"
 					fileappend "'resultfile$'" 'resultline$'
 				else
@@ -59,7 +61,7 @@ for interval to numberOfIntervals
 				select Intensity 'soundname$'
 				intensity = Get value at time... time cubic
 				if intensity = undefined
-					intensity$ = "NA"
+					intensity$ = ""
 					resultline$ = "'label$','time','n','f0','intensity$''newline$'"
 					fileappend "'resultfile$'" 'resultline$'
 				else
@@ -69,7 +71,6 @@ for interval to numberOfIntervals
 			endif
 			select gridfile
 		endfor
-		
 	endif
 endfor
 
